@@ -10,7 +10,7 @@ function App() {
   const name = "abc"
   return (
     <div style={{ display: "flex" }}>
-      <DisplayCategories />
+      <Test />
     </div>
 
   )
