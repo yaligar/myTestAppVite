@@ -1,24 +1,19 @@
-import { useState } from 'react'
-import testCartUI from "../src/components/testCartUI"
+import { createContext, useContext, useState } from 'react'
+import "../src/components/webCompEx"
 
 import './App.css'
-import TestCart from '../src/components/testCartUI'
+import Test from './components/test'
+import DisplayCategories from './components/displayCategoriesEx'
 
 
 function App() {
-  const [counter, setCounter] = useState(0)
-
+  const name = "abc"
   return (
- <div style={{display:"flex"}}>
- <TestCart />
- </div>
-     
-
-
+    <div style={{ display: "flex" }}>
+      <DisplayCategories />
+    </div>
 
   )
 }
-
-
 
 export default App
