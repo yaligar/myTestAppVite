@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import { MyContext } from '../App'
 
+
+
 function Child() {
-  const value  = useContext(MyContext)
+  const data = useContext(MyContext)
   return (
-    <div>inside Child {value}</div>
+    <div>inside Child {data} </div>
   )
 }
 
