@@ -1,0 +1,25 @@
+.container{
+display: flex;
+flex-wrap: wrap;
+
+
+}
+
+.card_section{
+border: 1px solid black;
+width: 210px;
+margin: 2px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+/* When you apply flex-wrap: wrap to a flex container, it allows flex items to wrap onto multiple lines instead of staying in one single line. */
+flex-wrap: wrap;  
+}
+.product-img{
+    height: 200px;
+    width:200px
+}
+.page_button{
+    border: 1px solidblack;
+}
