@@ -6,12 +6,13 @@ const SearchWithDebounce = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredRecords, setFilteredRecords] = useState([]);
 
+
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
       .then((r) => {
         setUser(r);
-        setFilteredRecords(r);
+        setFilteredRecords(r.sort((a,b)=>a.id -b.id));
       });
   }, []);
   //     function debounce(fn, delay) {
@@ -33,7 +34,7 @@ const SearchWithDebounce = () => {
             (record) =>
               record.name.toLowerCase().includes(data) ||
               record.username.toLowerCase().includes(data)
-          )
+          ).sort((a,b)=>a.id -b.id)
         );
       }, 2000),
     [user]
