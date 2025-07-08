@@ -1,82 +1,73 @@
-import React, { useEffect, useMemo, useState } from "react";
-import debounce from "lodash.debounce";
+// Seacrch debounce along with the Error handling 
 
-const SearchWithDebounce = () => {
-  const [user, setUser] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [filteredRecords, setFilteredRecords] = useState([]);
+import { error } from "console";
+import React, { useEffect, useRef, useState } from "react";
 
+function Test() {
+  const [users, setUsers] = useState([]);
+  const [filteredRecord, setFilterRecords] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const useTimerRef = useRef(null);
 
   useEffect(() => {
+    setLoading(true);
     fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((r) => {
-        setUser(r);
-        setFilteredRecords(r.sort((a,b)=>a.id -b.id));
-      });
+      .then((data) => {
+        if (!data.ok) {
+          throw new Error(data.status);
+        }
+        return data.json();
+      })
+      .then((rec) => {
+        setUsers(rec);
+        setFilterRecords(rec);
+        setLoading(false);
+      })
+      .catch((error) => alert(error));
   }, []);
-  //     function debounce(fn, delay) {
-  //     let timeInteval;
-  //     return function (...arg) {
-  //       clearInterval(timeInteval);
-  //       timeInteval = setTimeout(() => {
-  //         fn(...arg);
-  //       }, delay);
-  //     };
-  //   }
-  const handleSearchWithDebounce = useMemo(
-    () =>
-      // use Debounce from lodash library or we can write static function also
-      debounce((value) => {
-        const data = value.toLowerCase();
-        setFilteredRecords(
-          user.filter(
-            (record) =>
-              record.name.toLowerCase().includes(data) ||
-              record.username.toLowerCase().includes(data)
-          ).sort((a,b)=>a.id -b.id)
-        );
-      }, 2000),
-    [user]
-  );
-  const handleChange = (e) => {
-    const data = e.target.value;
-    setSearchText(data);
-    handleSearchWithDebounce(data);
-  };
+
+  function handleSearch(e) {
+    let searchText = e.target.value.toLowerCase();
+    if (useTimerRef.current) {
+      clearTimeout(useTimerRef.current);
+    }
+
+    useTimerRef.current = setTimeout(() => {
+      setFilterRecords(
+        users.filter((i) => i.name.toLowerCase().includes(searchText))
+      );
+    }, 300);
+  }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <input
-        placeholder="enter dat to be search"
         style={{ margin: "10px", width: "50%" }}
-        value={searchText}
-        onChange={(e) => handleChange(e)}
-      />
-      <table border={2}>
+        placeholder="Enter name to be searched"
+        type="text"
+        onChange={(e) => handleSearch(e)}
+      ></input>
+      <table border={1}>
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>UserName</th>
-            <th>email</th>
-            <th>city</th>
-          </tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Company Name</th>
         </thead>
         <tbody>
-          {filteredRecords &&
-            filteredRecords.map((rec) => (
-              <tr key={rec.id}>
-                <td>{rec.id}</td>
-                <td>{rec.name}</td>
-                <td>{rec.username}</td>
-                <td>{rec.email}</td>
-                <td>{rec.address.city}</td>
+          {filteredRecord &&
+            filteredRecord.map((i) => (
+              <tr key={i.id}>
+                <td>{i.name}</td>
+                <td>{i.email}</td>
+                <td>{i.company.name}</td>
               </tr>
             ))}
         </tbody>
       </table>
     </div>
   );
-};
+}
 
-export default SearchWithDebounce;
+export default Test;
