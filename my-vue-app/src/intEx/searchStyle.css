@@ -1,0 +1,13 @@
+.myCard {
+  background: lightgray; /* background is a shorthand for setting multiple background-related properties in one line:*/
+  border-radius: 8px; /* */
+  padding: 1rem; /* /*Scales better for responsiveness and accessibility. */
+  /* padding: 10px;   Always exactly 16 pixels  Not responsive or scalable.*/
+  box-shadow: 0 1px 4px black; /*[offset-x] [offset-y] [blur-radius] [color];*/
+}
+.maindiv {
+  display: grid;  
+  grid-template-columns: repeat(3, 1fr);  /*fr stands for fractional unit. we can also write as  => 1fr 1fr;*/
+  gap: 1rem; /* spacing between cards */
+  padding: 1rem;
+}
